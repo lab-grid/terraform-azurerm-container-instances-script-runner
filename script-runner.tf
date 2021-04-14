@@ -93,7 +93,7 @@ resource "azurerm_app_service_certificate_order" "script_runner" {
   name                = "${var.stack_name}-script-runner-cert-order"
   resource_group_name = var.resource_group_name
   location            = "global"
-  distinguished_name  = "CN=${var.dns_subdomain}.${var.dns_domain}"
+  distinguished_name  = "CN=${var.dns_subdomain}.${var.dns_zone_name}"
   product_type        = "Standard"
 }
 
@@ -102,7 +102,7 @@ resource "azurerm_dns_cname_record" "script_runner_www" {
   zone_name           = var.dns_zone_name
   resource_group_name = var.resource_group_name
   ttl                 = 60
-  record              = "${var.dns_subdomain}.${var.dns_domain}"
+  record              = "${var.dns_subdomain}.${var.dns_zone_name}"
 }
 
 resource "azurerm_dns_txt_record" "script_runner_validation" {

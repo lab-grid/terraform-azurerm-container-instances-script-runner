@@ -1,11 +1,6 @@
-variable "region" {
-  type    = string
-  default = "us-west-1"
-}
-
 variable "location" {
   type    = string
-  default = "california"
+  default = "westus"
 }
 
 variable "resource_group_name" {
@@ -13,28 +8,26 @@ variable "resource_group_name" {
 }
 
 variable "redis_subnet_id" {
-  type = string
+  type        = string
+  default     = "redis-subnet"
+  description = "ID of the subnet to create redis instances in."
 }
 
 variable "server_subnet_id" {
-  type = string
+  type        = string
+  default     = "server-subnet"
+  description = "ID of the subnet to create server instances in."
 }
 
 variable "worker_subnet_id" {
-  type = string
-}
-
-variable "network_profile_id" {
-  type = string
+  type        = string
+  default     = "worker-subnet"
+  description = "ID of the subnet to create worker instances in."
 }
 
 variable "dns_subdomain" {
-  type = string
-}
-
-variable "dns_domain" {
   type        = string
-  description = "DNS name for this instance of script-runner. Must match 'dns_zone_id'."
+  description = "Subdomain to prefix to dns_zone_name. API will be served under this subdomain."
 }
 
 variable "dns_zone_name" {
@@ -42,19 +35,28 @@ variable "dns_zone_name" {
   description = "Identifier of the Route53 Hosted Zone for this instance of script-runner."
 }
 
+variable "auth_provider" {
+  type        = string
+  description = "Auth provider to use for authentication/authorization. Supports 'auth0' and 'none'."
+  default     = "auth0"
+}
+
 variable "auth0_domain" {
   type        = string
-  description = "Domain for Auth0 client used to authenticate users calling script-runner's API."
+  description = "Domain for Auth0 client used to authenticate users calling script-runner's API. Required if auth_provider is set to 'auth0'."
+  default     = ""
 }
 
 variable "auth0_audience" {
   type        = string
-  description = "Audience for Auth0 client used to authenticate users calling script-runner's API."
+  description = "Audience for Auth0 client used to authenticate users calling script-runner's API. Required if auth_provider is set to 'auth0'."
+  default     = ""
 }
 
 variable "auth0_client_id" {
   type        = string
-  description = "Identifier for Auth0 client used to authenticate users calling script-runner's API."
+  description = "Identifier for Auth0 client used to authenticate users calling script-runner's API. Required if auth_provider is set to 'auth0'."
+  default     = ""
 }
 
 variable "stack_name" {

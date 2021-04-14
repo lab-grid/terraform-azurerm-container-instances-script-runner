@@ -5,7 +5,6 @@ This module deploys the script-runner server/worker as an Azure Container Instan
 ## Requirements
 
 * A valid Azure account
-* A valid Auth0 Account
 * A published docker container with both `script-runner` and your script of choice installed
 * An Azure DNS zone to add records for a script-runner subdomain to
 
@@ -40,25 +39,23 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_auth0_audience"></a> [auth0\_audience](#input\_auth0\_audience) | Audience for Auth0 client used to authenticate users calling script-runner's API. | `string` | n/a | yes |
-| <a name="input_auth0_client_id"></a> [auth0\_client\_id](#input\_auth0\_client\_id) | Identifier for Auth0 client used to authenticate users calling script-runner's API. | `string` | n/a | yes |
-| <a name="input_auth0_domain"></a> [auth0\_domain](#input\_auth0\_domain) | Domain for Auth0 client used to authenticate users calling script-runner's API. | `string` | n/a | yes |
-| <a name="input_dns_domain"></a> [dns\_domain](#input\_dns\_domain) | DNS name for this instance of script-runner. Must match 'dns\_zone\_id'. | `string` | n/a | yes |
-| <a name="input_dns_subdomain"></a> [dns\_subdomain](#input\_dns\_subdomain) | n/a | `string` | n/a | yes |
+| <a name="input_auth0_audience"></a> [auth0\_audience](#input\_auth0\_audience) | Audience for Auth0 client used to authenticate users calling script-runner's API. Required if auth\_provider is set to 'auth0'. | `string` | `""` | no |
+| <a name="input_auth0_client_id"></a> [auth0\_client\_id](#input\_auth0\_client\_id) | Identifier for Auth0 client used to authenticate users calling script-runner's API. Required if auth\_provider is set to 'auth0'. | `string` | `""` | no |
+| <a name="input_auth0_domain"></a> [auth0\_domain](#input\_auth0\_domain) | Domain for Auth0 client used to authenticate users calling script-runner's API. Required if auth\_provider is set to 'auth0'. | `string` | `""` | no |
+| <a name="input_auth_provider"></a> [auth\_provider](#input\_auth\_provider) | Auth provider to use for authentication/authorization. Supports 'auth0' and 'none'. | `string` | `"auth0"` | no |
+| <a name="input_dns_subdomain"></a> [dns\_subdomain](#input\_dns\_subdomain) | Subdomain to prefix to dns\_zone\_name. API will be served under this subdomain. | `string` | n/a | yes |
 | <a name="input_dns_zone_name"></a> [dns\_zone\_name](#input\_dns\_zone\_name) | Identifier of the Route53 Hosted Zone for this instance of script-runner. | `string` | n/a | yes |
 | <a name="input_environment_variables"></a> [environment\_variables](#input\_environment\_variables) | Mapping of environment variables to add to worker containers' environments. | `map(string)` | `{}` | no |
 | <a name="input_image"></a> [image](#input\_image) | n/a | `string` | n/a | yes |
 | <a name="input_image_tag"></a> [image\_tag](#input\_image\_tag) | n/a | `string` | `"latest"` | no |
-| <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"california"` | no |
-| <a name="input_network_profile_id"></a> [network\_profile\_id](#input\_network\_profile\_id) | n/a | `string` | n/a | yes |
-| <a name="input_redis_subnet_id"></a> [redis\_subnet\_id](#input\_redis\_subnet\_id) | n/a | `string` | n/a | yes |
-| <a name="input_region"></a> [region](#input\_region) | n/a | `string` | `"us-west-1"` | no |
+| <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `"westus"` | no |
+| <a name="input_redis_subnet_id"></a> [redis\_subnet\_id](#input\_redis\_subnet\_id) | ID of the subnet to create redis instances in. | `string` | `"redis-subnet"` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | n/a | yes |
 | <a name="input_server_count"></a> [server\_count](#input\_server\_count) | Number of server container instances to run. | `number` | `1` | no |
-| <a name="input_server_subnet_id"></a> [server\_subnet\_id](#input\_server\_subnet\_id) | n/a | `string` | n/a | yes |
+| <a name="input_server_subnet_id"></a> [server\_subnet\_id](#input\_server\_subnet\_id) | ID of the subnet to create server instances in. | `string` | `"server-subnet"` | no |
 | <a name="input_stack_name"></a> [stack\_name](#input\_stack\_name) | Prefix for names of resources created by terraform. | `string` | `"script-runner"` | no |
 | <a name="input_worker_count"></a> [worker\_count](#input\_worker\_count) | Number of worker container instances to run. | `number` | `1` | no |
-| <a name="input_worker_subnet_id"></a> [worker\_subnet\_id](#input\_worker\_subnet\_id) | n/a | `string` | n/a | yes |
+| <a name="input_worker_subnet_id"></a> [worker\_subnet\_id](#input\_worker\_subnet\_id) | ID of the subnet to create worker instances in. | `string` | `"worker-subnet"` | no |
 
 ## Outputs
 
