@@ -43,7 +43,7 @@ resource "azurerm_container_group" "script_runner" {
       "FLASK_ENV"            = "production"
       "PROPAGATE_EXCEPTIONS" = "False"
 
-      "AUTH_PROVIDER"           = "auth0"
+      "AUTH_PROVIDER"           = var.auth_type
       "AUTH0_DOMAIN"            = var.auth0_domain
       "AUTH0_CLIENT_ID"         = var.auth0_client_id
       "AUTH0_API_AUTHORITY"     = "https://${var.auth0_domain}/"
