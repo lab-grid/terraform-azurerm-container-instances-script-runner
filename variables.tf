@@ -42,19 +42,28 @@ variable "dns_zone_name" {
   description = "Identifier of the Route53 Hosted Zone for this instance of script-runner."
 }
 
+variable "auth_type" {
+  type        = string
+  description = "Auth type for API."
+  default     = "none"
+}
+
 variable "auth0_domain" {
   type        = string
   description = "Domain for Auth0 client used to authenticate users calling script-runner's API."
+  default     = ""
 }
 
 variable "auth0_audience" {
   type        = string
   description = "Audience for Auth0 client used to authenticate users calling script-runner's API."
+  default     = ""
 }
 
 variable "auth0_client_id" {
   type        = string
   description = "Identifier for Auth0 client used to authenticate users calling script-runner's API."
+  default     = ""
 }
 
 variable "stack_name" {
