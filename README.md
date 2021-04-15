@@ -43,8 +43,8 @@ No modules.
 | <a name="input_auth0_client_id"></a> [auth0\_client\_id](#input\_auth0\_client\_id) | Identifier for Auth0 client used to authenticate users calling script-runner's API. Required if auth\_provider is set to 'auth0'. | `string` | `""` | no |
 | <a name="input_auth0_domain"></a> [auth0\_domain](#input\_auth0\_domain) | Domain for Auth0 client used to authenticate users calling script-runner's API. Required if auth\_provider is set to 'auth0'. | `string` | `""` | no |
 | <a name="input_auth_provider"></a> [auth\_provider](#input\_auth\_provider) | Auth provider to use for authentication/authorization. Supports 'auth0' and 'none'. | `string` | `"auth0"` | no |
-| <a name="input_dns_subdomain"></a> [dns\_subdomain](#input\_dns\_subdomain) | Subdomain to prefix to dns\_zone\_name. API will be served under this subdomain. | `string` | n/a | yes |
-| <a name="input_dns_zone_name"></a> [dns\_zone\_name](#input\_dns\_zone\_name) | Identifier of the Route53 Hosted Zone for this instance of script-runner. | `string` | n/a | yes |
+| <a name="input_dns_subdomain"></a> [dns\_subdomain](#input\_dns\_subdomain) | Subdomain to prefix to dns\_zone\_name. API will be served under this subdomain. | `string` | `"script-runner"` | no |
+| <a name="input_dns_zone_name"></a> [dns\_zone\_name](#input\_dns\_zone\_name) | Identifier of the DNS Zone for this instance of script-runner. | `string` | n/a | yes |
 | <a name="input_environment_variables"></a> [environment\_variables](#input\_environment\_variables) | Mapping of environment variables to add to worker containers' environments. | `map(string)` | `{}` | no |
 | <a name="input_image"></a> [image](#input\_image) | n/a | `string` | n/a | yes |
 | <a name="input_image_tag"></a> [image\_tag](#input\_image\_tag) | n/a | `string` | `"latest"` | no |

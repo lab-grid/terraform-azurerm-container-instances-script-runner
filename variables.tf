@@ -27,12 +27,13 @@ variable "worker_subnet_id" {
 
 variable "dns_subdomain" {
   type        = string
+  default     = "script-runner"
   description = "Subdomain to prefix to dns_zone_name. API will be served under this subdomain."
 }
 
 variable "dns_zone_name" {
   type        = string
-  description = "Identifier of the Route53 Hosted Zone for this instance of script-runner."
+  description = "Identifier of the DNS Zone for this instance of script-runner."
 }
 
 variable "auth_provider" {
