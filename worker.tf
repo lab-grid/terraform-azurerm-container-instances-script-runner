@@ -4,6 +4,7 @@ resource "azurerm_container_group" "script_worker" {
   name                = "${var.stack_name}-script-worker-group-${count.index}"
   location            = var.location
   resource_group_name = var.resource_group_name
+  os_type             = "Linux"
 
   count = var.worker_count
 

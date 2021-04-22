@@ -23,6 +23,7 @@ resource "azurerm_container_group" "script_runner" {
   name                = "${var.stack_name}-script-runner-group-${count.index}"
   location            = var.location
   resource_group_name = var.resource_group_name
+  os_type             = "Linux"
 
   count = var.server_count
 
@@ -136,17 +137,17 @@ resource "azurerm_public_ip" "load_balancer" {
   allocation_method   = "Static"
 }
 
-resource "azurerm_lb_backend_address_pool" "load_balancer" {
-  loadbalancer_id = azurerm_lb.load_balancer.id
-  name            = "${var.stack_name}-script-runner-pool"
-}
-
-resource "azurerm_lb_backend_address_pool_address" "script_runner" {
-  name                    = "${var.stack_name}-script-runner-addr"
-  backend_address_pool_id = azurerm_lb_backend_address_pool.load_balancer.id
-  virtual_network_id      = azurerm_virtual_network.load_balancer.id
-  ip_address              = azurerm_container_group.script_runner.ip_address
-}
+# resource "azurerm_lb_backend_address_pool" "load_balancer" {
+#   loadbalancer_id = azurerm_lb.load_balancer.id
+#   name            = "${var.stack_name}-script-runner-pool"
+# }
+# 
+# resource "azurerm_lb_backend_address_pool_address" "script_runner" {
+#   name                    = "${var.stack_name}-script-runner-addr"
+#   backend_address_pool_id = azurerm_lb_backend_address_pool.load_balancer.id
+#   virtual_network_id      = azurerm_virtual_network.load_balancer.id
+#   ip_address              = azurerm_container_group.script_runner.ip_address
+# }
 
 resource "azurerm_application_gateway" "load_balancer" {
   name                = "${var.stack_name}-script-runner-lb"
@@ -179,7 +180,7 @@ resource "azurerm_application_gateway" "load_balancer" {
   }
 
   backend_address_pool {
-    name = azurerm_lb_backend_address_pool.load_balancer.name
+    name = "${var.stack_name}-script-runner-addrpool"
   }
 
   backend_http_settings {
@@ -196,14 +197,14 @@ resource "azurerm_application_gateway" "load_balancer" {
     frontend_port_name             = "${var.stack_name}-script-runner-port"
     protocol                       = "Https"
 
-    ssl_certificate_name = azurerm_app_service_certificate_order.script_runner.certificates.certificate_name
+    ssl_certificate_name = azurerm_app_service_certificate_order.script_runner.certificates[0].certificate_name
   }
 
   request_routing_rule {
     name                       = "${var.stack_name}-script-runner-listener-rule"
     rule_type                  = "Basic"
     http_listener_name         = "${var.stack_name}-script-runner-listener"
-    backend_address_pool_name  = azurerm_lb_backend_address_pool.load_balancer.name
+    backend_address_pool_name  = "${var.stack_name}-script-runner-addrpool"
     backend_http_settings_name = "${var.stack_name}-script-runner-httpconf"
   }
 }
