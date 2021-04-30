@@ -9,19 +9,11 @@ variable "resource_group_name" {
 
 variable "redis_subnet_id" {
   type        = string
-  default     = "redis-subnet"
   description = "ID of the subnet to create redis instances in."
-}
-
-variable "server_subnet_id" {
-  type        = string
-  default     = "server-subnet"
-  description = "ID of the subnet to create server instances in."
 }
 
 variable "worker_subnet_id" {
   type        = string
-  default     = "worker-subnet"
   description = "ID of the subnet to create worker instances in."
 }
 
@@ -34,6 +26,11 @@ variable "dns_subdomain" {
 variable "dns_zone_name" {
   type        = string
   description = "Identifier of the DNS Zone for this instance of script-runner."
+}
+
+variable "dns_zone_resource_group_name" {
+  type        = string
+  description = "Name of the resource group dns_zone_name is in."
 }
 
 variable "auth_provider" {
