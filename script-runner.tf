@@ -41,8 +41,8 @@ resource "azurerm_container_group" "script_runner" {
       "AUTH0_AUTHORIZATION_URL" = "https://${var.auth0_domain}/authorize"
       "AUTH0_TOKEN_URL"         = "https://${var.auth0_domain}/oauth/token"
 
-      "CELERY_BROKER_URL"     = "redis://:${azurerm_redis_cache.celery_broker.primary_access_key}@${azurerm_redis_cache.celery_broker.hostname}:${azurerm_redis_cache.celery_broker.port}"
-      "CELERY_RESULT_BACKEND" = "redis://:${azurerm_redis_cache.celery_broker.primary_access_key}@${azurerm_redis_cache.celery_broker.hostname}:${azurerm_redis_cache.celery_broker.port}"
+      "CELERY_BROKER_URL"     = "rediss://:${azurerm_redis_cache.celery_broker.primary_access_key}@${azurerm_redis_cache.celery_broker.hostname}:${azurerm_redis_cache.celery_broker.ssl_port}?ssl_cert_reqs=required"
+      "CELERY_RESULT_BACKEND" = "rediss://:${azurerm_redis_cache.celery_broker.primary_access_key}@${azurerm_redis_cache.celery_broker.hostname}:${azurerm_redis_cache.celery_broker.ssl_port}?ssl_cert_reqs=required"
     }
 
     liveness_probe {

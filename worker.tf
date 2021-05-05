@@ -46,8 +46,8 @@ resource "azurerm_container_group" "script_worker" {
     }
 
     environment_variables = {
-      "CELERY_BROKER_URL"     = "redis://:${azurerm_redis_cache.celery_broker.primary_access_key}@${azurerm_private_endpoint.celery_broker.private_service_connection[0].private_ip_address}:${azurerm_redis_cache.celery_broker.port}"
-      "CELERY_RESULT_BACKEND" = "redis://:${azurerm_redis_cache.celery_broker.primary_access_key}@${azurerm_private_endpoint.celery_broker.private_service_connection[0].private_ip_address}:${azurerm_redis_cache.celery_broker.port}"
+      "CELERY_BROKER_URL"     = "rediss://:${azurerm_redis_cache.celery_broker.primary_access_key}@${azurerm_private_endpoint.celery_broker.private_service_connection[0].private_ip_address}:${azurerm_redis_cache.celery_broker.ssl_port}?ssl_cert_reqs=required"
+      "CELERY_RESULT_BACKEND" = "rediss://:${azurerm_redis_cache.celery_broker.primary_access_key}@${azurerm_private_endpoint.celery_broker.private_service_connection[0].private_ip_address}:${azurerm_redis_cache.celery_broker.ssl_port}?ssl_cert_reqs=required"
     }
 
     secure_environment_variables = var.environment_variables
