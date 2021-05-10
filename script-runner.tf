@@ -100,6 +100,10 @@ resource "azurerm_frontdoor" "script_runner" {
 
   enforce_backend_pools_certificate_name_check = false
 
+  depends_on = [
+    azurerm_dns_cname_record.script_runner_lb
+  ]
+
   routing_rule {
     name               = "${var.stack_name}-script-runner-rr"
     accepted_protocols = ["Https"]
@@ -162,10 +166,19 @@ resource "azurerm_frontdoor" "script_runner" {
   frontend_endpoint {
     name      = "${var.stack_name}-script-runner-endpoint-2"
     host_name = "${var.dns_subdomain}.${var.dns_zone_name}"
+  }
+}
 
-    custom_https_provisioning_enabled = true
-    custom_https_configuration {
-      certificate_source = "FrontDoor"
-    }
+resource "azurerm_frontdoor_custom_https_configuration" "default" {
+  frontend_endpoint_id              = azurerm_frontdoor.script_runner.frontend_endpoints["${var.stack_name}-script-runner-endpoint-1"]
+  custom_https_provisioning_enabled = false
+}
+
+resource "azurerm_frontdoor_custom_https_configuration" "script_runner" {
+  frontend_endpoint_id              = azurerm_frontdoor.script_runner.frontend_endpoints["${var.stack_name}-script-runner-endpoint-2"]
+  custom_https_provisioning_enabled = true
+
+  custom_https_configuration {
+    certificate_source = "FrontDoor"
   }
 }
