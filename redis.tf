@@ -33,22 +33,33 @@ resource "azurerm_private_endpoint" "celery_broker" {
   }
 }
 
-resource "azurerm_redis_firewall_rule" "script_runner" {
-  count = var.server_count
+# TODO: It's not currently possible to determine the IP address that container instances
+#       are making requests from. Thus we must disable the redis cache firewall... :(
+resource "azurerm_redis_firewall_rule" "disable" {
+  name = "${var.stack_name}"
 
-  name                = replace("${var.stack_name}-script-runner-fw", "-", "_")
   redis_cache_name    = azurerm_redis_cache.celery_broker.name
   resource_group_name = var.resource_group_name
-  start_ip            = azurerm_container_group.script_runner[count.index].ip_address
-  end_ip              = azurerm_container_group.script_runner[count.index].ip_address
+  start_ip            = "0.0.0.0"
+  end_ip              = "255.255.255.255"
 }
 
-resource "azurerm_redis_firewall_rule" "script_worker" {
-  count = var.worker_count
+# resource "azurerm_redis_firewall_rule" "script_runner" {
+#   count = var.server_count
 
-  name                = replace("${var.stack_name}-script-worker-fw", "-", "_")
-  redis_cache_name    = azurerm_redis_cache.celery_broker.name
-  resource_group_name = var.resource_group_name
-  start_ip            = azurerm_container_group.script_worker[count.index].ip_address
-  end_ip              = azurerm_container_group.script_worker[count.index].ip_address
-}
+#   name                = replace("${var.stack_name}-script-runner-fw", "-", "_")
+#   redis_cache_name    = azurerm_redis_cache.celery_broker.name
+#   resource_group_name = var.resource_group_name
+#   start_ip            = azurerm_container_group.script_runner[count.index].ip_address
+#   end_ip              = azurerm_container_group.script_runner[count.index].ip_address
+# }
+
+# resource "azurerm_redis_firewall_rule" "script_worker" {
+#   count = var.worker_count
+
+#   name                = replace("${var.stack_name}-script-worker-fw", "-", "_")
+#   redis_cache_name    = azurerm_redis_cache.celery_broker.name
+#   resource_group_name = var.resource_group_name
+#   start_ip            = azurerm_container_group.script_worker[count.index].ip_address
+#   end_ip              = azurerm_container_group.script_worker[count.index].ip_address
+# }
