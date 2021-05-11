@@ -42,3 +42,13 @@ resource "azurerm_redis_firewall_rule" "script_runner" {
   start_ip            = azurerm_container_group.script_runner[count.index].ip_address
   end_ip              = azurerm_container_group.script_runner[count.index].ip_address
 }
+
+resource "azurerm_redis_firewall_rule" "script_worker" {
+  count = var.worker_count
+
+  name                = replace("${var.stack_name}-script-worker-fw", "-", "_")
+  redis_cache_name    = azurerm_redis_cache.celery_broker.name
+  resource_group_name = var.resource_group_name
+  start_ip            = azurerm_container_group.script_worker[count.index].ip_address
+  end_ip              = azurerm_container_group.script_worker[count.index].ip_address
+}
